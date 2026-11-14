@@ -11,6 +11,50 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+KR:wght@400;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="../assets/css/main.css">
+  
+  <style>
+    /* Chapter Navigator Styling */
+    .chapter-nav {
+      position: sticky;
+      top: 0;
+      background: rgba(249, 247, 242, 0.95); /* Parchment-like background */
+      backdrop-filter: blur(5px);
+      border-bottom: 1px solid var(--rule, #ccc);
+      padding: 0.8rem 0;
+      margin-bottom: 2rem;
+      z-index: 100;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem 1rem;
+      font-family: var(--serif-display, serif);
+      font-size: 0.9rem;
+    }
+    .chapter-nav a {
+      text-decoration: none;
+      color: var(--ink-soft, #555);
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+    }
+    .chapter-nav a:hover {
+      background: rgba(61, 107, 92, 0.1);
+      color: var(--teal, #3d6b5c);
+    }
+    .chapter-nav .current {
+      font-weight: 600;
+      color: var(--teal, #3d6b5c);
+      border-bottom: 2px solid var(--teal, #3d6b5c);
+    }
+    /* Smooth scrolling for anchor links */
+    html {
+      scroll-behavior: smooth;
+    }
+    /* Scroll padding to offset sticky nav */
+    h2 {
+      scroll-margin-top: 4rem;
+    }
+  </style>
 </head>
 <body>
 
@@ -19,11 +63,22 @@
     <span class="divider">&middot;</span>
     <a href="index.html">Vaskric</a>
     <span class="divider">&middot;</span>
-    <a href="grammar/diacritics.html">Diacritics</a>
+    <a href="history.html">History</a>
     <span class="divider">&middot;</span>
-    <a href="phonology.html">Phonology</a>
+    <a href="grammar/index.html">Grammar</a>
+    <span class="divider">&middot;</span>
+    <a href="lexicon/index.html">Lexicon</a>
     <span class="divider">&middot;</span>
     <a href="../about.html">About</a>
+  </nav>
+
+  <!-- Chapter Navigator -->
+  <nav class="chapter-nav" aria-label="Chapters">
+    <a href="#chapter-1">I. Arrival</a>
+    <a href="#chapter-2">II. Isolation</a>
+    <a href="#chapter-3">III. Divergence</a>
+    <a href="#chapter-4">IV. Suppression</a>
+    <a href="#chapter-5">V. Revival</a>
   </nav>
 
   <main>
@@ -35,14 +90,23 @@
 
     <p class="dropcap">The Vaskrins descend from a mixed group of Roman-era settlers &mdash; legionaries, merchants, and their families &mdash; and seafarers from the Luzon Babayin people, who fled the Spanish conquest. Reaching East Asia along trade routes in late antiquity, they were cut off from their homelands by the collapse of long-distance contact and coalesced into a single community in rural areas outside the area that would become Beijing.</p>
 
-    <p>For centuries they preserved a Latinate core &mdash; vocabulary, morphology, and a scribal diacritic habit &mdash; while the surrounding Sinitic languages reshaped their phonology, lexicon, and everyday syntax.</p>
+    <p>For centuries they preserved a Latinate core &mdash; vocabulary, morphology, and a scribal diacritic habit &mdash; while the surrounding Sinitic languages reshaped their phonology, lexicon, and everyday syntax. This is the story of how a small, isolated community turned a Latin skeleton into a living, breathing, and utterly unique language.</p>
 
     <div class="ornament">&#10087; &#10087; &#10087;</div>
 
-    <h2>I. The three-stratum lexicon</h2>
+    <!-- Chapter 1 -->
+    <h2 id="chapter-1">I. The Age of Arrival</h2>
 
+    <h3>The Long Journey</h3>
+    <p>In the twilight of the Roman Empire, a small group of merchants, soldiers, and their families set out from the eastern provinces. They were not conquerors, but travelers, following the ancient trade routes that connected the Mediterranean to the mysterious lands of the East. Their journey was long and perilous, crossing deserts and mountains, but they carried with them the most precious cargo: their language.</p>
+    <p>This language was a form of Vulgar Latin, the everyday speech of the Roman world. It was a language of the marketplace, the barracks, and the home. As they traveled further east, they became increasingly isolated from the Roman world they had left behind. The collapse of long-distance trade routes eventually severed all contact with their homeland.</p>
+
+    <h3>The First Settlement</h3>
+    <p>After years of wandering, they found refuge in a fertile valley, far from the chaos of the collapsing empires. Here, they established a small, self-sufficient community. They built homes, planted fields, and began to raise families. In this isolation, their Latin began to evolve in ways it never would have in the Mediterranean.</p>
+    <p>The first divergence was phonological. Isolated from the sound changes that were sweeping through Europe, their language preserved archaic features. Final consonants, which were being dropped in the West, remained intact. The trilled /r/ was preserved. The vocabulary, however, began to absorb loanwords from the local populations they encountered.</p>
+
+    <h3>The Layered Lexicon</h3>
     <p>One consequence of that history is visible in the lexicon itself. Vaskric words come from three distinct sources, and the layering is not hidden but on display: a speaker can usually tell at a glance which stratum a word belongs to.</p>
-
     <table>
       <thead>
         <tr>
@@ -70,16 +134,49 @@
       </tbody>
     </table>
 
-    <p>This layering is the visible trace of the community&rsquo;s actual location &mdash; a Latin skeleton wearing a Sinitic coat.</p>
+    <div class="ornament">&#10087; &#10087; &#10087;</div>
+
+    <!-- Chapter 2 -->
+    <h2 id="chapter-2">II. The Age of Isolation</h2>
+
+    <h3>The Sinitic Turn</h3>
+    <p>As centuries passed, the Vaskrin community grew and prospered. But their isolation was not complete. They were surrounded by powerful neighbors: the vast and ancient civilization of China. Sinitic languages and culture began to exert a profound influence on the Vaskrins.</p>
+    <p>This was the "Sinitic Turn." The Vaskrin people adopted many aspects of Chinese culture: agricultural techniques, architectural styles, and, most importantly, vocabulary. The language absorbed a massive influx of Sinitic loanwords, particularly for concepts the original Latin lacked.</p>
+
+    <h3>The Diacritic Strategy</h3>
+    <p>As the language became more complex, the Vaskrins developed a unique writing system. They adapted the Latin script, but added a layer of diacritics to mark subtle differences in pronunciation and grammar. This system, which looked like French on the page, was actually a sophisticated tool for preserving their linguistic identity. It was a deliberate strategy of divergence from the surrounding Sinitic languages.</p>
+    <p>The <a href="grammar/diacritics.html">lexical diacritic layer</a> was not merely a typological quirk. Under suppression, the Vaskrins used it as a semi-closed orthography: insiders could read any text aloud fluently, but outsiders transcribing from speech could not reliably reproduce the written form, because the choice of diacritic is lexical and historical, not predictable from pronunciation.</p>
+    <p>The diacritics thus functioned as a <strong>boundary marker</strong> &mdash; a way of keeping literacy semi-closed to the community while remaining fully speakable in daily life.</p>
+
+    <blockquote>
+      This is the single most important sociolinguistic fact about Vaskric: the language&rsquo;s signature difficulty is a survival strategy, not an accident. It is the inverse of French, and it is what makes Vaskric notorious.
+    </blockquote>
 
     <div class="ornament">&#10087; &#10087; &#10087;</div>
 
-    <h2>II. Suppression and diglossia</h2>
+    <!-- Chapter 3 -->
+    <h2 id="chapter-3">III. The Age of Divergence</h2>
 
-    <p>The Vaskrins have been a suppressed minority for much of their history. Suppression took the form of restrictions on language use in public life, mandatory registration with authorities, and periodic campaigns to assimilate or relocate the community.</p>
+    <h3>The Mongol Breakaway</h3>
+    <p>The peace of the Vaskrin valleys was shattered by the Mongol invasions of the 13th century. The Mongol conquests brought chaos and destruction. The Vaskrin community, which had remained largely intact for centuries, was split apart.</p>
+    <p>One faction, seeking safety, fled south and west, deeper into the mountains. They became the ancestors of the modern Vaskric people. They preserved the Latinate core of the language, but their isolation from the eastern branch led to a different set of linguistic changes.</p>
+    <p>The other faction, more adventurous or perhaps more desperate, fled east. They crossed the mountains and eventually settled in the Korean peninsula. This was the birth of the Vaskoryō dialect. Over centuries of contact with Korean, their language underwent a profound transformation. The sounds softened, the grammar shifted, and the unique Vaskoryō vowel, /ə/, was born.</p>
 
+    <h3>The Two Dialects</h3>
+    <p>The divergence was not total. The two branches remained mutually intelligible, akin to Spanish and Portuguese, or Danish and Swedish. A Standard Vaskric speaker and a Vaskoryōn speaker can converse with modest effort after a few days of exposure.</p>
+    <p>But the differences were significant. The western branch preserved the full Latinate consonant clusters, like <em>vaskr-</em>. The eastern branch simplified them, turning <em>vaskr-</em> into <em>bask-</em>. The western branch kept final <em>r</em>; the eastern branch turned it into <em>l</em>. The western branch kept the trilled /r/; the eastern branch softened it.</p>
+
+    <div class="ornament">&#10087; &#10087; &#10087;</div>
+
+    <!-- Chapter 4 -->
+    <h2 id="chapter-4">IV. The Age of Suppression</h2>
+
+    <h3>The Hidden Centuries</h3>
+    <p>The centuries that followed were difficult for both branches of the Vaskrin people. In the West, they were a small, isolated minority, surrounded by a powerful Sinitic culture. They were often discriminated against and marginalized. To survive, they developed a "Public/Private split." In public, they spoke the local language; in private, they preserved their own.</p>
+    <p>In the East, the Vaskoryōns faced similar challenges. They were a small community in a foreign land. But their resilience was remarkable. They preserved their language, their customs, and their history, passing them down from generation to generation.</p>
+
+    <h3>Diglossia and Registers</h3>
     <p>That history produced a <strong>diglossia</strong> with three registers:</p>
-
     <table>
       <thead>
         <tr>
@@ -106,27 +203,10 @@
         </tr>
       </tbody>
     </table>
-
     <p>A fourth, covert register existed historically: an in-group way of speaking used to evade monitoring, characterised by euphemism, indirection, and the full lexical diacritic layer in writing. This is the context in which the <a href="grammar/diacritics.html">diacritic shibboleth</a> emerged.</p>
 
-    <div class="ornament">&#10087; &#10087; &#10087;</div>
-
-    <h2>III. The diacritic shibboleth</h2>
-
-    <p>The <a href="grammar/diacritics.html">lexical diacritic layer</a> was not merely a typological quirk. Under suppression, the Vaskrins used it as a semi-closed orthography: insiders could read any text aloud fluently, but outsiders transcribing from speech could not reliably reproduce the written form, because the choice of diacritic is lexical and historical, not predictable from pronunciation.</p>
-
-    <p>The diacritics thus functioned as a <strong>boundary marker</strong> &mdash; a way of keeping literacy semi-closed to the community while remaining fully speakable in daily life.</p>
-
-    <blockquote>
-      This is the single most important sociolinguistic fact about Vaskric: the language&rsquo;s signature difficulty is a survival strategy, not an accident. It is the inverse of French, and it is what makes Vaskric notorious.
-    </blockquote>
-
-    <div class="ornament">&#10087; &#10087; &#10087;</div>
-
-    <h2>IV. Taboo and euphemism</h2>
-
+    <h3>Taboo and Euphemism</h3>
     <p>Suppressed minorities develop euphemistic vocabulary for authorities, informants, and forbidden topics. Vaskric has a small taboo lexicon, used in the covert register:</p>
-
     <table>
       <thead>
         <tr>
@@ -169,27 +249,20 @@
         </tr>
       </tbody>
     </table>
-
     <p>These expressions are not used in the High Register or in formal writing; they belong to the covert register and to oral tradition.</p>
 
     <div class="ornament">&#10087; &#10087; &#10087;</div>
 
-    <h2>V. Endangerment and revitalisation</h2>
+    <!-- Chapter 5 -->
+    <h2 id="chapter-5">V. The Modern Era</h2>
 
+    <h3>Endangerment and Revitalisation</h3>
     <p>Vaskric is endangered. The community&rsquo;s language transmission was interrupted during the suppression periods, and today the number of fluent speakers is small &mdash; a few thousand at most, concentrated in the older generation.</p>
+    <p>Revitalisation efforts are recent and fragile: a community-based literacy programme, a small corpus of recorded oral literature, and the beginnings of a school curriculum. This archive is itself part of the revitalisation effort: it documents the language for learners and for the community&rsquo;s own future.</p>
 
-    <p>Revitalisation efforts are recent and fragile: a community-based literacy programme, a small corpus of recorded oral literature, and the beginnings of a school curriculum.</p>
-
-    <p>This archive is itself part of the revitalisation effort: it documents the language for learners and for the community&rsquo;s own future.</p>
-
-    <div class="ornament">&#10087; &#10087; &#10087;</div>
-
-    <h2>VI. Why this history matters</h2>
-
+    <h3>Why This History Matters</h3>
     <p>The Roman-descended minority in rural China is the best thing that could have happened to this language, because it converts an aesthetic thesis into a historical one. The language now has a reason to look French, sound Latin, carry lexical diacritics, and preserve archaic registers &mdash; because its speakers were isolated, suppressed, and had to make their orthography do double duty as a boundary marker.</p>
-
     <p>Every design feature has a cause:</p>
-
     <table>
       <thead>
         <tr>
@@ -208,7 +281,6 @@
         <tr><td>Endangerment</td><td>The language&rsquo;s current status and the reason for this archive</td></tr>
       </tbody>
     </table>
-
     <p>The skeleton was already strong; the history gives it a spine.</p>
 
     <div class="ornament">&#10087; &#10087; &#10087;</div>
