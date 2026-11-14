@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search the Vaskric Lexicon - Vaskric Archive</title>
+<meta name="description" content="Search the Standard Vaskric lexicon by Latin script, IPA, or English meaning.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/main.css">
+<style>
+  /* Fallback styles if main.css is missing table styles */
+  body { font-family: var(--serif-body, 'EB Garamond', serif); line-height: 1.6; color: var(--ink, #333); background: var(--bg, #f9f9f9); max-width: 1000px; margin: 0 auto; padding: 2rem; }
+  h1, h2, h3 { font-family: var(--serif-display, 'Cormorant Garamond', serif); }
+  .ipa { font-family: var(--mono, 'JetBrains Mono', monospace); color: var(--ink-soft, #666); font-size: 0.95em; }
+  .vaskoryo-cell { font-family: var(--hangul, 'Noto Serif KR', serif); color: var(--teal, #3d6b5c); opacity: 0.7; }
+  .muted { color: var(--ink-soft, #666); }
+  .italic { font-style: italic; }
+  .small-caps { font-variant: small-caps; }
+  
+  /* Table Styles */
+  table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; }
+  th, td { padding: 0.8rem 1rem; text-align: left; border-bottom: 1px solid var(--rule, #eee); }
+  th { background: var(--bg-alt, #f4f4f4); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-soft, #555); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover { background-color: var(--bg-hover, #fafafa); }
+  
+  /* Search Bar */
+  .search-bar input { border: 1px solid var(--rule-strong, #ccc) !important; background: var(--bg-input, #fff) !important; color: var(--ink, #333) !important; }
+  .search-bar input:focus { border-color: var(--teal, #3d6b5c) !important; box-shadow: 0 0 0 2px rgba(61,107,92,0.2); }
+  
+  /* Nav */
+  .site-nav { margin-bottom: 2rem; font-size: 0.9rem; }
+  .site-nav a { text-decoration: none; color: var(--teal, #3d6b5c); }
+  .site-nav a:hover { text-decoration: underline; }
+  .divider { margin: 0 0.5rem; color: #ccc; }
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Site">
+  <a href="../index.html">&larr; Archive</a>
+  <span class="divider">&middot;</span>
+  <a href="../index.html">Vaskric</a>
+  <span class="divider">&middot;</span>
+  <a href="index.html">Lexicon</a>
+  <span class="divider">&middot;</span>
+  <a href="../grammar/index.html">Grammar</a>
+  <span class="divider">&middot;</span>
+  <a href="../about.html">About</a>
+</nav>
+<main>
+  <h1>Search the Vaskric Lexicon</h1>
+  <p class="muted italic" style="margin-top: -0.5em;">
+    <em>Type a Latin spelling, IPA, or English meaning</em>
+  </p>
+
+<div class="search-bar" style="margin: 1.5rem 0; display: flex; gap: 0.6rem; align-items: center;">
+    <input id="q" type="search" placeholder="Search: solar, /solra/, sun&hellip;" autocomplete="off" autofocus aria-label="Search the lexicon" style="flex: 1; font-family:var(--serif-body, 'EB Garamond'); font-size:1.1rem; padding:0.7em 0.9em; border-radius:3px; outline:none;" />
+    <span id="count" class="muted small-caps" style="font-size:0.9rem; white-space:nowrap;">...</span>
+</div>
+
+<p id="empty" style="display:none; text-align:center; font-style:italic; color:var(--ink-faint, #999); margin-top:2em;">
+    No matches. Try a shorter query.
+</p>
+
+<div id="results"></div>
+
+</main>
+
+<footer>
+    <p><a href="index.html">&larr; Lexicon overview</a> &middot; Search</p>
+</footer>
+
+<!-- Load the central lexicon data file -->
+<script src="../../assets/js/lexicon-data.js"></script>
+<script>
+// --- Dynamic Search Logic for Standard Vaskric ---
+const results = document.getElementById('results');
+const countEl = document.getElementById('count');
+const emptyEl = document.getElementById('empty');
+const input = document.getElementById('q');
+
+const LEXICON = LEXICON_DATA;
+
+function escapeHtml(s) {
+    return String(s).replace(/&<>"/g, c => {
+        switch(c) {
+            case '&': return '&amp;';
+            case '<': return '&lt;';
+            case '>': return '&gt;';
+            case '"': return '&quot;';
+            default: return c;
+        }
+    });
+}
+
+function highlight(text, q) {
+    if (!q) return escapeHtml(text);
+    const escText = escapeHtml(text);
+    const escQ = escapeHtml(q);
+    const safeQ = escQ.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(`(${safeQ})`, 'ig');
+    return escText.replace(re, '<mark style="background:rgba(61,107,92,0.25); padding: 0 2px; border-radius:2px;">$1</mark>');
+}
+
+function render(q) {
+    q = q.trim();
+    const qLower = q.toLowerCase();
+
+    const matches = q
+    ? LEXICON.filter(row => 
+        row.some(cell => String(cell).toLowerCase().includes(qLower))
+      )
+    : LEXICON;
+
+    countEl.textContent = q
+    ? `${matches.length} / ${LEXICON.length}`
+    : `${LEXICON.length} entries`;
+
+    emptyEl.style.display = matches.length === 0 ? 'block' : 'none';
+
+    const groups = {};
+    for (const row of matches) {
+        const cat = row[row.length - 1] || 'Uncategorized';
+        if (!groups[cat]) groups[cat] = [];
+        groups[cat].push(row);
+    }
+
+    let html = '';
+    for (const [cat, rows] of Object.entries(groups)) {
+        html += `<h3>${escapeHtml(cat)}</h3>`;
+        html += `<table><thead><tr>`;
+        
+        const sampleRow = rows[0];
+        const colCount = sampleRow.length - 1;
+        
+        // Vaskric order: Latin(1), IPA(2), Meaning(3), Hangul(0), [Extras...]
+        html += `<th>Latin</th><th>IPA</th><th>Meaning</th><th>Eastern (Hangul)</th>`;
+        for(let i = 4; i < colCount; i++) {
+            html += `<th>Col ${i+1}</th>`;
+        }
+        html += `</tr></thead><tbody>`;
+
+        for (const row of rows) {
+            html += `<tr>`;
+            // Render in custom order for Vaskric
+            html += `<td><em>${highlight(row[1], q)}</em></td>`;
+            html += `<td class="ipa">${highlight(row[2], q)}</td>`;
+            html += `<td>${highlight(row[3], q)}</td>`;
+            html += `<td class="vaskoryo-cell">${highlight(row[0], q)}</td>`;
+            
+            for(let i = 4; i < row.length - 1; i++) {
+                html += `<td>${highlight(row[i], q)}</td>`;
+            }
+            html += `</tr>`;
+        }
+        html += `</tbody></table>`;
+    }
+    results.innerHTML = html;
+}
+
+const params = new URLSearchParams(location.search);
+if (params.get('q')) input.value = params.get('q');
+render(input.value);
+
+input.addEventListener('input', e => {
+    render(e.target.value);
+    history.replaceState(null, '', e.target.value ? `?q=${encodeURIComponent(e.target.value)}` : location.pathname);
+});
+</script>
+</body>
+</html>

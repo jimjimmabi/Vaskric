@@ -1,0 +1,12 @@
+/* =========================================================
+   Vaskric Archive - Theme Overrides
+   Add any custom CSS here. It will override main.css
+   because it is loaded after it.
+========================================================= */
+
+/* Example: To make the Vaskoryō teal slightly brighter, uncomment below */
+/*
+:root {
+    --teal: #2d8a6e;
+}
+*/
