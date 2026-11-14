@@ -10,63 +10,27 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+KR:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- Note: The CSS link might also be failing if your folders are structured differently. 
-       We have fallback inline CSS below to ensure it always looks good. -->
   <link rel="stylesheet" href="../../assets/css/main.css">
-  <link rel="stylesheet" href="../assets/css/main.css">
 
   <style>
-    /* --- Fallback Styling to match the rest of your site --- */
-    .vaskoryo-cell {
-      font-family: var(--hangul, 'Noto Serif KR', serif);
-      color: var(--teal, #3d6b5c);
-      font-size: 1.05em;
-      font-weight: 500;
-    }
-    
-    .ipa {
-      font-family: var(--mono, 'JetBrains Mono', monospace);
-      color: var(--ink-soft, #666);
-      font-size: 0.95em;
-    }
-    
-    .search-container {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-      margin: 1.5rem 0;
-    }
-    
-    .search-container input {
-      font-family: var(--serif-body, 'EB Garamond', serif);
-      font-size: 1.1rem;
-      padding: 0.7em 0.9em;
-      border: 1px solid var(--rule-strong, #ccc);
-      border-radius: 3px;
-      background: rgba(255, 255, 255, 0.4);
-      color: var(--ink, #333);
-      outline: none;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    
-    .search-container input:focus {
-      border-color: var(--teal, #3d6b5c);
-      box-shadow: 0 0 0 2px rgba(61, 107, 92, 0.2);
-    }
-
-    /* Table Styling */
+    .vaskoryo-cell { font-family: var(--hangul, 'Noto Serif KR', serif); color: var(--teal, #3d6b5c); font-size: 1.05em; font-weight: 500; }
+    .ipa { font-family: var(--mono, 'JetBrains Mono', monospace); color: var(--ink-soft, #666); font-size: 0.95em; }
+    .etymology { font-size: 0.85em; font-style: italic; color: var(--ink-faint, #888); }
+    .search-container { display: flex; gap: 1rem; align-items: center; margin: 1.5rem 0; }
+    .search-container input { font-family: var(--serif-body, 'EB Garamond', serif); font-size: 1.1rem; padding: 0.7em 0.9em; border: 1px solid var(--rule-strong, #ccc); border-radius: 3px; background: rgba(255, 255, 255, 0.4); color: var(--ink, #333); outline: none; width: 100%; box-sizing: border-box; }
+    .search-container input:focus { border-color: var(--teal, #3d6b5c); box-shadow: 0 0 0 2px rgba(61, 107, 92, 0.2); }
     table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; background: rgba(255, 255, 255, 0.25); }
     th, td { padding: 0.5em 0.7em; text-align: left; border-bottom: 1px solid var(--rule, #eee); vertical-align: top; }
     th { font-family: var(--serif-display, serif); font-variant: small-caps; font-weight: 600; color: var(--ink-soft, #555); border-bottom: 1px solid var(--rule-strong, #ccc); background: rgba(43, 29, 14, 0.04); }
     tr:hover td { background: rgba(43, 29, 14, 0.025); }
-    
-    /* Nav fallback */
     .site-nav { margin-bottom: 2rem; font-size: 0.9rem; font-family: var(--serif-display, serif); }
     .site-nav a { text-decoration: none; color: var(--oxblood, #7a2e1f); }
     .site-nav a:hover { text-decoration: underline; }
     .divider { margin: 0 0.5rem; color: #ccc; }
   </style>
+  
+  <!-- Load Supabase Config -->
+  <script src="../../assets/js/supabase-config.js"></script>
 </head>
 <body>
 
@@ -84,25 +48,14 @@
 
   <main>
     <h1>Search the Vaskory&#335; Lexicon</h1>
-    <p class="muted italic" style="margin-top:-0.5em;">
-      <em>Type a Hangul word, Latin spelling, IPA, or English meaning</em>
-    </p>
+    <p class="muted italic" style="margin-top:-0.5em;"><em>Type a Hangul word, Latin spelling, IPA, or English meaning</em></p>
 
     <div class="search-container">
-      <input
-        id="q"
-        type="search"
-        placeholder="Search: solar, 바스카, sun, food&hellip;"
-        autocomplete="off"
-        autofocus
-        aria-label="Search the lexicon"
-      />
-      <span id="count" class="muted small-caps" style="font-size:0.9rem; white-space:nowrap;">...</span>
+      <input id="q" type="search" placeholder="Search: solar, 바스카, sun, fat, tall&hellip;" autocomplete="off" autofocus aria-label="Search the lexicon" />
+      <span id="count" class="muted small-caps" style="font-size:0.9rem; white-space:nowrap;">Loading...</span>
     </div>
 
-    <p id="empty" style="display:none; text-align:center; font-style:italic; color:var(--ink-faint, #999); margin-top:2em;">
-      No matches. Try a shorter query.
-    </p>
+    <p id="empty" style="display:none; text-align:center; font-style:italic; color:var(--ink-faint, #999); margin-top:2em;">No matches. Try a shorter query.</p>
     
     <div id="results"></div>
   </main>
@@ -111,76 +64,61 @@
     <p><a href="index.html">&larr; Lexicon overview</a> &middot; Search</p>
   </footer>
 
-  <!-- SMART SCRIPT LOADER: Tries multiple paths to find your data file -->
   <script>
-    function loadLexiconData() {
-      // We try a list of likely paths depending on how your folders are organized
-      const possiblePaths = [
-        "../../assets/js/lexicon-data.js", // Standard root/assets
-        "../assets/js/lexicon-data.js",    // One level up
-        "assets/js/lexicon-data.js",       // Same folder
-        "/assets/js/lexicon-data.js"       // Absolute root
-      ];
-
-      let pathIndex = 0;
-
-      function tryNextPath() {
-        if (pathIndex >= possiblePaths.length) {
-          // If it fails everywhere, show the error
-          document.getElementById('results').innerHTML = 
-            '<div style="padding: 1rem; background: #ffe6e6; border: 1px solid #ffcccc; color: #990000; border-radius: 4px;">' +
-            '<strong>Database Error:</strong> Could not find <code>lexicon-data.js</code>.<br><br>' +
-            'Please check that your folder structure looks exactly like this:<br>' +
-            '<code>YourProjectFolder/assets/js/lexicon-data.js</code><br><br>' +
-            'Your search file is currently located at:<br>' +
-            '<code>vaskoryo/lexicon/search.html</code>' +
-            '</div>';
-          return;
-        }
-
-        const script = document.createElement('script');
-        script.src = possiblePaths[pathIndex];
-        
-        script.onload = function() {
-          // Success! The file loaded and LEXICON_DATA is now available.
-          if (typeof LEXICON_DATA !== 'undefined') {
-            initSearch();
-          } else {
-            pathIndex++;
-            tryNextPath();
-          }
-        };
-        
-        script.onerror = function() {
-          // Failed this path, try the next one
-          pathIndex++;
-          tryNextPath();
-        };
-
-        document.head.appendChild(script);
-      }
-
-      tryNextPath();
-    }
-
-    // Main Search Logic
-    function initSearch() {
+    document.addEventListener('DOMContentLoaded', function() {
       const results = document.getElementById('results');
       const countEl = document.getElementById('count');
       const emptyEl = document.getElementById('empty');
       const input = document.getElementById('q');
-      const LEXICON = LEXICON_DATA;
+
+      const SUPABASE_URL = window.SUPABASE_URL;
+      const SUPABASE_KEY = window.SUPABASE_KEY;
+
+      let LEXICON = [];
+
+      async function fetchData() {
+        try {
+          const response = await fetch(`${SUPABASE_URL}/rest/v1/lexicon?select=*`, {
+            headers: {
+              'apikey': SUPABASE_KEY,
+              'Authorization': `Bearer ${SUPABASE_KEY}`
+            }
+          });
+
+          if (!response.ok) throw new Error('Network response was not ok');
+          
+          const data = await response.json();
+          
+          LEXICON = data.map(item => [
+            item.hangul,
+            item.latin,
+            item.ipa,
+            item.meaning,
+            item.etymology,
+            item.category
+          ]);
+
+          countEl.textContent = LEXICON.length + ' entries';
+          
+          const params = new URLSearchParams(location.search);
+          if (params.get('q')) input.value = params.get('q');
+          render(input.value);
+        } catch (error) {
+          results.innerHTML = '<div style="padding: 1rem; color: red; border: 1px solid red; background: #ffe6e6;">Error loading database: ' + error.message + '</div>';
+          countEl.textContent = 'Error';
+        }
+      }
+
+      fetchData();
 
       function escapeHtml(s) {
         if (s === undefined || s === null) return '';
-        return String(s).replace(/&<>"/g, c => {
-          switch(c) {
-            case '&': return '&amp;';
-            case '<': return '&lt;';
-            case '>': return '&gt;';
-            case '"': return '&quot;';
-            default: return c;
-          }
+        return String(s).replace(/&<>"/g, function(c) {
+          if (c === '&') return '&amp;';
+          if (c === '<') return '&lt;';
+          if (c === '>') return '&gt;';
+          if (c === '"') return '&quot;';
+          return c;
         });
       }
 
@@ -189,81 +127,66 @@
         const escText = escapeHtml(text);
         const escQ = escapeHtml(q);
         const safeQ = escQ.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const re = new RegExp(`(${safeQ})`, 'ig');
+        const re = new RegExp('(' + safeQ + ')', 'ig');
         return escText.replace(re, '<mark style="background:rgba(61,107,92,0.25); padding: 0 2px; border-radius:2px;">$1</mark>');
       }
 
       function render(q) {
+        if (!LEXICON.length) return; 
+
         q = q.trim();
         const qLower = q.toLowerCase();
 
         const matches = q
-          ? LEXICON.filter(row => 
-              row.some(cell => String(cell).toLowerCase().includes(qLower))
-            )
+          ? LEXICON.filter(function(row) { 
+              return row.some(function(cell) { 
+                return String(cell).toLowerCase().includes(qLower); 
+              });
+            })
           : LEXICON;
 
-        countEl.textContent = q
-          ? `${matches.length} / ${LEXICON.length}`
-          : `${LEXICON.length} entries`;
-
+        countEl.textContent = q ? (matches.length + ' / ' + LEXICON.length) : (LEXICON.length + ' entries');
         emptyEl.style.display = matches.length === 0 ? 'block' : 'none';
 
         const groups = {};
-        for (const row of matches) {
+        for (let i = 0; i < matches.length; i++) {
+          const row = matches[i];
           const cat = row[row.length - 1] || 'Uncategorized';
           if (!groups[cat]) groups[cat] = [];
           groups[cat].push(row);
         }
 
         let html = '';
-        for (const [cat, rows] of Object.entries(groups)) {
-          html += `<h3>${escapeHtml(cat)}</h3>`;
-          
-          const sampleRow = rows[0];
-          const colCount = sampleRow.length - 1; 
-          
-          html += `<table><thead><tr>`;
-          for (let i = 0; i < colCount; i++) {
-            let headerName = '';
-            if (i === 0) headerName = 'Hangul';
-            else if (i === 1) headerName = 'Latin';
-            else if (i === 2) headerName = 'IPA';
-            else if (i === 3) headerName = 'Meaning';
-            else headerName = `Extra ${i-3}`; 
-            html += `<th>${headerName}</th>`;
-          }
-          html += `</tr></thead><tbody>`;
+        for (const cat in groups) {
+          if (groups.hasOwnProperty(cat)) {
+            const rows = groups[cat];
+            html += '<h3>' + escapeHtml(cat) + '</h3>';
+            
+            html += '<table><thead><tr>';
+            html += '<th>Hangul</th><th>Latin</th><th>IPA</th><th>Meaning</th><th>Etymology / Origin</th>';
+            html += '</tr></thead><tbody>';
 
-          for (const row of rows) {
-            html += `<tr>`;
-            for (let i = 0; i < row.length - 1; i++) {
-              const cellValue = row[i];
-              let cellClass = '';
-              if (i === 0) cellClass = 'vaskoryo-cell';
-              else if (i === 2) cellClass = 'ipa';
-              
-              html += `<td class="${cellClass}">${highlight(cellValue, q)}</td>`;
+            for (let j = 0; j < rows.length; j++) {
+              const row = rows[j];
+              html += '<tr>';
+              html += '<td class="vaskoryo-cell">' + highlight(row[0], q) + '</td>';
+              html += '<td><em>' + highlight(row[1], q) + '</em></td>';
+              html += '<td class="ipa">' + highlight(row[2], q) + '</td>';
+              html += '<td>' + highlight(row[3], q) + '</td>';
+              html += '<td class="etymology">' + highlight(row[4], q) + '</td>';
+              html += '</tr>';
             }
-            html += `</tr>`;
+            html += '</tbody></table>';
           }
-          html += `</tbody></table>`;
         }
         results.innerHTML = html;
       }
 
-      const params = new URLSearchParams(location.search);
-      if (params.get('q')) input.value = params.get('q');
-      render(input.value);
-
-      input.addEventListener('input', e => {
+      input.addEventListener('input', function(e) {
         render(e.target.value);
-        history.replaceState(null, '', e.target.value ? `?q=${encodeURIComponent(e.target.value)}` : location.pathname);
+        history.replaceState(null, '', e.target.value ? '?q=' + encodeURIComponent(e.target.value) : location.pathname);
       });
-    }
-
-    // Start the loading process when the page is ready
-    document.addEventListener('DOMContentLoaded', loadLexiconData);
+    });
   </script>
 </body>
 </html>
