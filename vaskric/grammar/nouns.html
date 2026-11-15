@@ -3,14 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Vaskric Nouns & Adjectives - Grammar</title>
-  <meta name="description" content="Vaskric nouns and adjectives: pluralization, possession, no gender, and adjective agreement.">
+  <title>Vaskoryō Nouns & Adjectives - Grammar</title>
+  <meta name="description" content="Vaskoryō nouns and adjectives: pluralization, possession, no gender, and adjective agreement.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+KR:wght@400;600&display=swap" rel="stylesheet">
   
-  <!-- Correct relative path from vaskric/grammar/ to assets/ -->
   <link rel="stylesheet" href="../../assets/css/main.css">
   
   <style>
@@ -19,21 +18,63 @@
       color: var(--teal, #3d6b5c);
       font-size: 1.05em;
       font-weight: 500;
-      opacity: 0.8;
     }
     .ipa {
       font-family: var(--mono, 'JetBrains Mono', monospace);
       color: var(--ink-soft, #666);
       font-size: 0.95em;
     }
+    .etymology {
+      font-size: 0.85em;
+      font-style: italic;
+      color: var(--ink-faint, #888);
+    }
+    
+    /* Dynamic Table Styling */
+    table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; background: rgba(255, 255, 255, 0.25); }
+    th, td { padding: 0.5em 0.7em; text-align: left; border-bottom: 1px solid var(--rule, #eee); vertical-align: top; }
+    th { font-family: var(--serif-display, serif); font-variant: small-caps; font-weight: 600; color: var(--ink-soft, #555); border-bottom: 1px solid var(--rule-strong, #ccc); background: rgba(43, 29, 14, 0.04); }
+    tr:hover td { background: rgba(43, 29, 14, 0.025); }
+
+    /* Category Navigator Styling */
+    .category-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      justify-content: center;
+    }
+    .category-nav button {
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid var(--rule, #ccc);
+      padding: 0.4rem 1rem;
+      border-radius: 3px;
+      cursor: pointer;
+      font-family: var(--serif-body, serif);
+      font-size: 0.95rem;
+      color: var(--ink-soft, #555);
+      transition: all 0.2s ease;
+    }
+    .category-nav button:hover {
+      background: rgba(61, 107, 92, 0.1);
+      border-color: var(--teal, #3d6b5c);
+    }
+    .category-nav button.active {
+      background: var(--teal, #3d6b5c);
+      color: white;
+      border-color: var(--teal, #3d6b5c);
+    }
   </style>
 </head>
 <body>
 
+<!-- Load Supabase Config FIRST -->
+<script src="../../assets/js/supabase-config.js"></script>
+
 <nav class="site-nav" aria-label="Site">
   <a href="../../index.html">&larr; Archive</a>
   <span class="divider">&middot;</span>
-  <a href="../../index.html">Vaskric</a>
+  <a href="../../index.html">Vaskory&#335;</a>
   <span class="divider">&middot;</span>
   <a href="../index.html">Grammar</a>
   <span class="divider">&middot;</span>
@@ -45,65 +86,48 @@
 <main>
   <h1>Nouns &amp; Adjectives</h1>
   <p class="muted italic" style="margin-top:-0.5em;">
-    <em>Pluralization, possession, and description in the Western Dialect</em>
+    <em>Pluralization, possession, and description in the Eastern Dialect</em>
   </p>
 
-  <p class="dropcap">Vaskric nouns are remarkably simple compared to the verbs. There is <strong>no grammatical gender</strong> (unlike Latin or French), and there is <strong>no case marking</strong> (unlike German or Russian). Nouns are marked only for plural and possession. Adjectives are completely invariant; they never change to match the noun they describe.</p>
+  <p class="dropcap">Vaskory&#335; nouns are remarkably simple compared to the verbs. There is <strong>no grammatical gender</strong> (unlike Latin or French), and there is <strong>no case marking</strong> (unlike German or Russian). Nouns are marked only for plural and possession. Adjectives are completely invariant; they never change to match the noun they describe.</p>
 
   <div class="ornament">&#10087; &#10087; &#10087;</div>
 
-  <h2>I. Pluralization</h2>
-  <p>To make a noun plural, you simply add the suffix <strong><em>-s</em></strong>. This is identical to English and Vaskoryō.</p>
-  
-  <table>
-    <thead>
-      <tr>
-        <th>Singular (Vaskric)</th>
-        <th>Plural (Vaskric)</th>
-        <th>Hangul (Singular)</th>
-        <th>Hangul (Plural)</th>
-        <th>Meaning</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><em>kaniren</em></td>
-        <td><em>kanirens</em></td>
-        <td class="vaskoryo-cell">카니렌</td>
-        <td class="vaskoryo-cell">카니렌스</td>
-        <td>dog &rarr; dogs</td>
-      </tr>
-      <tr>
-        <td><em>solar</em></td>
-        <td><em>solars</em></td>
-        <td class="vaskoryo-cell">솔라</td>
-        <td class="vaskoryo-cell">솔라스</td>
-        <td>sun &rarr; suns</td>
-      </tr>
-      <tr>
-        <td><em>domus</em></td>
-        <td><em>domuss</em></td>
-        <td class="vaskoryo-cell">도무스</td>
-        <td class="vaskoryo-cell">도무스스</td>
-        <td>house &rarr; houses</td>
-      </tr>
-    </tbody>
-  </table>
+  <h2>I. Core Noun Categories</h2>
+  <p>Below are the core noun categories. These tables are generated dynamically from the archive database. As the lexicon grows, these tables will update automatically.</p>
 
+  <!-- The Category Navigator -->
+  <div class="category-nav" id="category-nav">
+    <button data-category="Body" class="active">Body</button>
+    <button data-category="Kinship">Kinship</button>
+    <button data-category="Nature">Nature</button>
+    <button data-category="Animals">Animals</button>
+    <button data-category="Food & Drink">Food & Drink</button>
+    <button data-category="Restaurant">Restaurant</button>
+  </div>
+
+  <!-- The Dynamic Table Container -->
+  <div id="dynamic-table-container"></div>
+
+  <div class="ornament">&#10087; &#10087; &#10087;</div>
+
+  <h2>II. Pluralization</h2>
+  <p>To make a noun plural, you simply add the suffix <strong><em>-s</em></strong>. This is identical to English and Vaskric.</p>
+  
   <p class="muted" style="font-size:0.92rem; font-style:italic;">
     Note: If a noun already ends in <em>-s</em> in the singular (like <em>domus</em>), the plural simply adds another <em>-s</em>. In rapid speech, these often merge into a long hiss <span class="ipa">/sː/</span>.
   </p>
 
   <div class="ornament">&#10087; &#10087; &#10087;</div>
 
-  <h2>II. Possession (Owning)</h2>
-  <p>To say "X's Y" (like "the man's dog"), Vaskric does not use an apostrophe. Instead, it uses the preposition <strong><em>de</em></strong> (of). The possessor comes <em>after</em> the possessed item.</p>
+  <h2>III. Possession (Owning)</h2>
+  <p>To say "X's Y" (like "the man's dog"), Vaskory&#335; does not use an apostrophe. Instead, it uses the preposition <strong><em>de</em></strong> (of). The possessor comes <em>after</em> the possessed item.</p>
 
   <table>
     <thead>
       <tr>
-        <th>Vaskric</th>
-        <th>Hangul (Vaskoryō)</th>
+        <th>Vaskory&#335; (Latin)</th>
+        <th>Vaskory&#335; (Hangul)</th>
         <th>Literal Translation</th>
         <th>Meaning</th>
       </tr>
@@ -133,14 +157,14 @@
 
   <div class="ornament">&#10087; &#10087; &#10087;</div>
 
-  <h2>III. Adjectives</h2>
-  <p>Adjectives in Vaskric are completely <strong>invariant</strong>. They do not change for gender, number, or case. An adjective always comes <em>after</em> the noun it describes (unlike English, but identical to French and Spanish).</p>
+  <h2>IV. Adjectives</h2>
+  <p>Adjectives in Vaskory&#335; are completely <strong>invariant</strong>. They do not change for gender, number, or case. An adjective always comes <em>after</em> the noun it describes (unlike English, but identical to French and Spanish).</p>
   
   <table>
     <thead>
       <tr>
-        <th>Vaskric</th>
-        <th>Hangul (Vaskoryō)</th>
+        <th>Vaskory&#335;</th>
+        <th>Hangul</th>
         <th>Meaning</th>
       </tr>
     </thead>
@@ -166,8 +190,8 @@
 
   <div class="ornament">&#10087; &#10087; &#10087;</div>
 
-  <h2>IV. Subject and Object (Ergative Alignment)</h2>
-  <p>In Vaskric, the role of the noun in the sentence (who is doing the action vs. who is receiving it) is marked by <strong>diacritics</strong> (or in Hangul, by vowel modification). This is the signature difficulty of the language.</p>
+  <h2>V. Subject and Object (Ergative Alignment)</h2>
+  <p>In Vaskory&#335;, the role of the noun in the sentence (who is doing the action vs. who is receiving it) is marked by <strong>diacritics</strong> (or in Hangul, by vowel modification). This is the signature difficulty of the language.</p>
   
   <p>This is explained in full detail on the <a href="diacritics.html">Diacritics page</a>, but here is a quick reminder:</p>
 
@@ -175,28 +199,24 @@
     <thead>
       <tr>
         <th>Role</th>
-        <th>Example (Vaskric)</th>
-        <th>Hangul</th>
+        <th>Example (Hangul)</th>
         <th>Meaning</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>Transitive Subject</td>
-        <td><em>eeko vaskra</em></td>
-        <td class="vaskoryo-cell">에에코 바스크라</td>
+        <td class="vaskoryo-cell">에에크 바스카</td>
         <td>I speak (something)</td>
       </tr>
       <tr>
         <td>Intransitive Subject</td>
-        <td><em>eko vandren</em></td>
-        <td class="vaskoryo-cell">에코 반드렌</td>
+        <td class="vaskoryo-cell">에크 ㅇ 반드렌</td>
         <td>I walk</td>
       </tr>
       <tr>
         <td>Transitive Object</td>
-        <td><em>vaskra l'lingua</em></td>
-        <td class="vaskoryo-cell">바스크라 를링구아</td>
+        <td class="vaskoryo-cell">바스카 뤼용과므</td>
         <td>speak the language</td>
       </tr>
     </tbody>
@@ -204,17 +224,17 @@
 
   <div class="ornament">&#10087; &#10087; &#10087;</div>
 
-  <h2>V. Gender and Animate/Inanimate</h2>
-  <p>Vaskric has <strong>no grammatical gender</strong>. There is no "masculine", "feminine", or "neuter" for inanimate objects. The sun (<em>solar</em>) is not masculine, and the moon (<em>lunara</em>) is not feminine.</p>
+  <h2>VI. Gender and Animate/Inanimate</h2>
+  <p>Vaskory&#335; has <strong>no grammatical gender</strong>. There is no "masculine", "feminine", or "neuter" for inanimate objects. The sun (<em>solar</em>) is not masculine, and the moon (<em>lunara</em>) is not feminine.</p>
   
-  <p>However, Vaskric does distinguish between <strong>animate</strong> (living) and <strong>inanimate</strong> (non-living) nouns in one specific context: the question word <em>who</em> vs. <em>what</em>.</p>
+  <p>However, Vaskory&#335; does distinguish between <strong>animate</strong> (living) and <strong>inanimate</strong> (non-living) nouns in one specific context: the question word <em>who</em> vs. <em>what</em>.</p>
 
   <table>
     <thead>
       <tr>
         <th>Question</th>
-        <th>Vaskric</th>
-        <th>Hangul (Vaskoryō)</th>
+        <th>Vaskory&#335; (Latin)</th>
+        <th>Vaskory&#335; (Hangul)</th>
         <th>Used for...</th>
       </tr>
     </thead>
@@ -237,7 +257,7 @@
 
   <div class="ornament">&#10087; &#10087; &#10087;</div>
 
-  <h2>VI. Summary of Noun Rules</h2>
+  <h2>VII. Summary of Noun Rules</h2>
   <ul>
     <li><strong>Plural:</strong> Add <em>-s</em>.</li>
     <li><strong>Possession:</strong> Use <em>de</em> after the noun (e.g., <em>domus de ek</em> = my house).</li>
@@ -257,6 +277,97 @@
 <footer>
   <p><a href="index.html">&larr; Grammar</a> &nbsp; Nouns &amp; Adjectives</p>
 </footer>
+
+<!-- Custom script to handle the category buttons and dynamic tables -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const navButtons = document.querySelectorAll('#category-nav button');
+    const container = document.getElementById('dynamic-table-container');
+
+    // Function to update the table
+    function loadCategory(category) {
+      // 1. Update button styles
+      navButtons.forEach(btn => {
+        if (btn.getAttribute('data-category') === category) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      // 2. Fetch data from Supabase
+      const SUPABASE_URL = window.SUPABASE_URL;
+      const SUPABASE_KEY = window.SUPABASE_KEY;
+      
+      // Determine dialect based on the URL path
+      const isVaskoryo = window.location.pathname.includes('/vaskoryo/');
+      const url = `${SUPABASE_URL}/rest/v1/lexicon?select=*&category=eq.${encodeURIComponent(category)}`;
+
+      fetch(url, {
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.length === 0) {
+          container.innerHTML = `<p class="muted italic">No entries found for ${category}.</p>`;
+          return;
+        }
+
+        let html = '<table><thead><tr>';
+        
+        // Generate Headers based on Dialect
+        if (isVaskoryo) {
+          html += '<th>Hangul</th><th>IPA</th><th>Meaning</th><th>Etymology</th>';
+        } else {
+          html += '<th>Latin</th><th>IPA</th><th>Meaning</th><th>Etymology</th>';
+        }
+        
+        html += '</tr></thead><tbody>';
+
+        // Generate Rows
+        data.forEach(item => {
+          if (isVaskoryo) {
+            html += `
+              <tr>
+                <td class="vaskoryo-cell">${item.hangul}</td>
+                <td class="ipa">${item.ipa}</td>
+                <td>${item.meaning}</td>
+                <td class="etymology">${item.etymology}</td>
+              </tr>`;
+          } else {
+            html += `
+              <tr>
+                <td><em>${item.latin}</em></td>
+                <td class="ipa">${item.ipa}</td>
+                <td>${item.meaning}</td>
+                <td class="etymology">${item.etymology}</td>
+              </tr>`;
+          }
+        });
+
+        html += '</tbody></table>';
+        container.innerHTML = html;
+      })
+      .catch(err => {
+        container.innerHTML = `<p style="color:red;">Error loading table: ${err.message}</p>`;
+      });
+    }
+
+    // Attach click events to buttons
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const cat = this.getAttribute('data-category');
+        loadCategory(cat);
+      });
+    });
+
+    // Load the default category (Body) on page load
+    loadCategory('Body');
+  });
+</script>
 
 </body>
 </html>
